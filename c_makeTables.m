@@ -33,9 +33,6 @@ addpath(genpath(dirs.funclib));                 % add dirs to path
 % settings lookup table
 lookup  = getDataDescription(false);
 
-% params
-windowLength    = 200;      % ms
-
 
 % read in data
 [files,nfiles]  = FileFromFolder(dirs.proc,[],'mat');
