@@ -62,6 +62,8 @@ if 1
     yLims       = [0.000065718377755 2.256982615782695];
     yLimsLTicks = [floor(log10(yLims(1))) ceil(log10(yLims(2)))];
     ETs         = unique({files.tracker});
+    subs        = {'ss1','ss2','ss3','ss4'};
+    fnames      = {};
     for e=1:length(ETs)
         for p=1:2   % human or AE
             for f=1:2   % filtered or unfiltered
@@ -99,7 +101,7 @@ if 1
                         end
                         data = out(qFile);
                         
-                        condlbl = 'human_nofilt';
+                        condlbl = 'human_unfilt';
                         qYlabel = true;
                         
                     case 21
@@ -159,13 +161,14 @@ if 1
                 else
                     extra = {};
                 end
+                clear h1 h2
                 for a=1:size(xSlopes,2)
                     ax.ColorOrderIndex = whichSub(a);
-                    h1=loglog(PSDf(1:end-1),sqrt(xSlopes(1:end-1,a)),'-','LineWidth',1.5,extra{:});
+                    h1(a)=loglog(PSDf(1:end-1),sqrt(xSlopes(1:end-1,a)),'-','LineWidth',1.5,extra{:});
                 end
-                for a=1:size(xSlopes,2)
+                for a=1:size(ySlopes,2)
                     ax.ColorOrderIndex = whichSub(a);
-                    h2=loglog(PSDf(1:end-1),sqrt(ySlopes(1:end-1,a)),'--','LineWidth',1.5,extra{:});
+                    h2(a)=loglog(PSDf(1:end-1),sqrt(ySlopes(1:end-1,a)),'--','LineWidth',1.5,extra{:});
                 end
                 ax.XScale = 'log';
                 ax.YScale = 'log';
@@ -200,9 +203,49 @@ if 1
                 ax.YAxis.LineWidth = 1.5;
                 ax.XRuler.TickValues = [1, 10, 100];
                 ax.XRuler.TickLabels = {'1','10','100'};
-                print([dirs.results '\NieZemHol_fig' num2str(figNum) '_' ETs{e} '_' condlbl '.png'],'-dpng','-r300')
+                
+                if p==1
+                    % human data legend
+                    lh=legend(h1,subs{whichSub},'Location','SouthWest');
+                else
+                    % AE data legend
+                    lh=legend([h1 h2],'X','Y','Location','SouthWest');
+                end
+                lh.Box = 'off';
+                
+                fnames{end+1} = ['NieZemHol_fig' num2str(figNum) '_' ETs{e} '_' condlbl '.png'];
+                print(fullfile(dirs.results,fnames{end}),'-dpng','-r300')
             end
         end
+    end
+    
+    % not cut off white edges
+    % cut out code
+    plaat = cell(size(fnames));
+    for p=1:length(fnames)
+        plaat{p} = imread(fullfile(dirs.results,fnames{p}));
+    end
+    % find out how much can trim from each side for each image
+    pix = plaat{1}(1,1,:);
+    trims = nan(length(plaat),4);
+    for p=1:length(plaat)
+        qBackGround = all(plaat{p}==pix,3);
+        qHori = all(qBackGround,1);
+        qVert = all(qBackGround,2);
+        % left
+        trims(p,1) = find(~qHori,1);
+        % right
+        trims(p,2) = find(~qHori,1,'last');
+        % top
+        trims(p,3) = find(~qVert,1);
+        % bottom
+        trims(p,4) = find(~qVert,1,'last');
+    end
+    allTrim = [min(trims(:,1)) max(trims(:,2)) min(trims(:,3)) max(trims(:,4))];
+    % now trim them all and save
+    for p=1:length(plaat)
+        im = plaat{p}(allTrim(3):allTrim(4),allTrim(1):allTrim(2),:);
+        imwrite(im,fullfile(dirs.results,fnames{p}));
     end
 end
 
