@@ -140,7 +140,7 @@ if 1    % for each tracker, get ten data windows most similar to mean or median 
             
             % scale indicator
             ht = text(max(cellfun(@(x) max(x(:,1)),plotDat(:,end)))+f,voff(e)-vloff(e),sprintf('%.2f$^\\circ$',scale(e)),'FontSize',12,'HorizontalAlignment','right','VerticalAlignment','middle','FontWeight','bold','interpreter','latex');
-            plot(ht.Position(1)-ht.Extent(3)-.05+[-1 0]*scaleindic(e),voff([e e])-vloff(e),'k-','LineWidth',2);
+            plot(ht.Position(1)-ht.Extent(3)-.1+[-1 0]*scaleindic(e),voff([e e])-vloff(e),'k-','LineWidth',2);
         end
         axis([0.3098	5.7000	0.4439	4.8622])
         axis equal

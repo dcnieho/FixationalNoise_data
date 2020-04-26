@@ -235,7 +235,7 @@ if 1
             
             % scale indicator
             ht = text(max(cellfun(@(x) max(x(:,1)),plotDat(:,end)))+f,voff(e)-vloff(e),sprintf('%.2f$^\\circ$',scale(e)),'FontSize',12,'HorizontalAlignment','right','VerticalAlignment','middle','FontWeight','bold','interpreter','latex');
-            plot(ht.Position(1)-ht.Extent(3)-.05+[-1 0]*scaleindic(e),voff([e e])-vloff(e),'k-','LineWidth',2);
+            plot(ht.Position(1)-ht.Extent(3)-.1+[-1 0]*scaleindic(e),voff([e e])-vloff(e),'k-','LineWidth',2);
         end
         axis([0.3098	5.7000	0.4439	4.8622])
         axis equal
@@ -353,7 +353,7 @@ if 1
         lbls = {'SMI RED250', 'Tobii TX300'};
         eidx = [2 4];
         pidx = [[4 1 8];[2 6 9]];
-        scale= [1 1];
+        scale= [1 .2];
         idx = sub2ind(size(allDatSel),repmat(eidx.',1,3),pidx);
         plotDat = allDatSel(idx);
         scaleindic = scale.*pixperdeg(eidx);
