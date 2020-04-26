@@ -1,4 +1,4 @@
-function logt = readInFitFile(fitfile)
+function logt = readInRFitFile(fitfile)
 fid = fopen(fitfile,'rt');
 logtxt = fread(fid,inf,'*char').';
 fclose(fid);
