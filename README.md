@@ -19,8 +19,8 @@ To generate the data-based figures in the above two papers, run the following sc
 4. Tables are then made with:
    - `c_makeTables.m`.
 5. To generate Figure 8 in Niehorster, Zemblys, Beelders & Holmqvist (in press):
-   - First run `c_makeRInput.m` and then the `R/anal.r` script. `R/anal.r` should be run twice, to generate output both for 95th and 99th percentile exclusion criteria. See line 10 in that script.
+   - First run `c_makeRInput.m` and then the `R/analyze.r` script. `R/analyze.r` should be run twice, to generate output both for 95th and 99th percentile exclusion criteria. See line 10 in that script.
    - Then execute `d_plotROutput.m` to make the figure.
-   - Alternatively, you can directly execute `d_plotROutput.m`, since the output of the `c_makeRInput.m` and the `R/anal.r` scripts is included in this repository.
+   - Alternatively, you can directly execute `d_plotROutput.m`, since the output of the `c_makeRInput.m` and the `R/analyze.r` scripts is included in this repository.
 
 Tested on MATLAB R2020a
