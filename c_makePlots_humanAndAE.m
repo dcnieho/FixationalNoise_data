@@ -179,7 +179,7 @@ if 1
                 if qYlabel
                     ylabel('Amplitude (deg/Hz)')
                 end
-                if (contains(condlbl,'unfilt')||contains(condlbl,'nofilt')) && ismember(ETs{e},{'EL','REDm','X260'})
+                if contains(condlbl,'unfilt') && ismember(ETs{e},{'EL','REDm','X260'})
                     xlabel('Frequency (Hz)')
                     % all the below shit because adding a label subtly changes
                     % the height of the drawable part of the axis...
