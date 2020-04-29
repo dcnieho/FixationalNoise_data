@@ -241,6 +241,9 @@ if 1
         axis equal
         axis off
         
+        a=axis();
+        text(a(1),a(3)+0.92*a(4),'Human data','FontSize',14,'HorizontalAlignment','left','VerticalAlignment','bottom','FontWeight','bold')
+        
         print([dirs.results '\NieZemHol_fig2a.png'],'-dpng','-r300')
     end
     

@@ -146,6 +146,9 @@ if 1    % for each tracker, get ten data windows most similar to mean or median 
         axis equal
         axis off
         
+        a=axis();
+        text(a(1),a(3)+0.92*a(4),'Artificial eye data','FontSize',14,'HorizontalAlignment','left','VerticalAlignment','bottom','FontWeight','bold')
+        
         print([dirs.results '\NieZemHol_fig2b.png'],'-dpng','-r300')
     end
     
