@@ -97,6 +97,8 @@ for f=1:nfiles
         dat.left.Y  = data(:,3);
         dat.right.Y = data(:,5);
     end
+    dat.left.pup    = data(:,6);
+    dat.right.pup   = data(:,7);
     
     % add target info
     dat.target.on   = targets(:,1);
