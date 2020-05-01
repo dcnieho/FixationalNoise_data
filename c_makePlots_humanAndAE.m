@@ -389,6 +389,134 @@ end
 
 %% RMS-STD space plots
 % NieZemBeeHol Figure 10
+if 1
+    fac = [1.05 1.15];
+    ETs = unique({files.tracker});
+    refLines = [sqrt(2)];
+    refLinClr= {'g'};
+    refLineAng= atan(refLines);
+    for e=find(strcmp(ETs,'EL'))
+        [~,~,~,~,~,~,plotIdx,lim] = getValByKey(lookup,ETs{e});
+        for p=1:2   % human or AE
+            for f=1:2   % filtered or unfiltered
+                todo = p*10+f;
+                clear data;
+                whichSub = [1 4];
+                switch todo
+                    case 11
+                        % filtered human (nb: only subjects 1 and 4, as
+                        % those are the only ones we also have unfiltered
+                        % data for)
+                        qFile = strcmp({files.tracker},ETs{e}) & [files.isFiltered] & ismember({files.subj},{'ss1','ss4'});
+                        data = out(qFile);
+                        condlbl = 'human_filt';
+                        
+                    case 12
+                        % unfiltered human
+                        qFile = strcmp({files.tracker},ETs{e}) & ~[files.isFiltered];
+                        data = out(qFile);
+                        condlbl = 'human_nofilt';
+                        
+                    case 21
+                        % filtered AE
+                        qFile = strcmp({filesAE.tracker},ETs{e}) & [filesAE.isFiltered];
+                        data = outAE(qFile);
+                        condlbl = 'AE_filt';
+                        
+                    case 22
+                        % unfiltered AE
+                        qFile = strcmp({filesAE.tracker},ETs{e}) & ~[filesAE.isFiltered];
+                        data = outAE(qFile);
+                        condlbl = 'AE_unfilt';
+                end
+                
+                clf
+                [axLines,rLblDist] = polar_hist_plot(gca,lim,fac); hold on
+                % draw reflines
+                for l=1:length(refLines)
+                    plot([0 lim*fac(2)*cos(refLineAng)],[0 lim*fac(2)*sin(refLineAng)],refLinClr{l},'LineWidth',1.5);
+                end
+                % get data
+                input=[reshape([data.STD],[],1), reshape([data.RMS],[],1)];
+                qNaN = any(isnan(input),2);
+                
+                % get 2D kde
+                [bandwidth,density,X,Y]=kde2d(input(~qNaN,:),2^9,[0 0],[lim lim]);
+                % draw data
+                % 1. set densities beyong plot limit to 0
+                density(hypot(X,Y)>lim) = 0;
+                % 2. threshold
+                md = max(density(:));
+                levels = linspace(0,md,16);
+                % plot
+                contourf(X,Y,density,levels(2:end),'LineStyle','none');  % remove lowest level
+                
+                % 1D RMS/STD histogram in outer ring
+                RMS_STD = input(:,2)./input(:,1);
+                [~,density,x]=kde(RMS_STD,2^14,0);
+                levels = linspace(0,max(density),16);
+                qRemove = density<levels(2);
+                density(qRemove) = [];
+                x(qRemove) = [];
+                density = density/max(density)*md;  % scale to same range as 2D density plot, so same color map does the trick
+                th = atan(x);
+                % turn into patches on the outer ring
+                rin = lim*fac(1);
+                rout= lim*fac(2);
+                X = [rout*cos(th(1:end-1)); rout*cos(th(2:end)); rin*cos(th(2:end)); rin*cos(th(1:end-1))];
+                Y = [rout*sin(th(1:end-1)); rout*sin(th(2:end)); rin*sin(th(2:end)); rin*sin(th(1:end-1))];
+                xSlopes = [density(1:end-1)       density(2:end)       density(2:end)      density(1:end-1)].';
+                patch(X,Y,xSlopes,'FaceColor','interp','EdgeColor','none')
+                
+                % make up
+                % just X and Y axis
+                xlabel('STD (°)')
+                ylabel('RMS-S2S (°)')
+                % polar axis label
+                ax=gca;
+                rLblDist = rLblDist*1.07;
+                polLblLoc = [1 1].*rLblDist*sqrt(2)/2;
+                polLbl = 'signal type';
+                h = text(polLblLoc(1),polLblLoc(2), polLbl,'HorizontalAlignment','center','VerticalAlignment','middle','FontName',ax.YAxis.Label.FontName,'FontSize',ax.YAxis.Label.FontSize);
+                len = h.Extent(3);
+                delete(h);
+                baseRot = -34.5;
+                poss = conv(linspace(0,len,length(polLbl)+1),[.5 .5],'valid')-len/2;  % character centers. Assume characters equally wide, works for this specific label :)
+                angs = poss./(2*pi*rLblDist*.85)*360+baseRot;
+                hh = text(cosd(angs)*rLblDist,-sind(angs)*rLblDist, num2cell(polLbl),'HorizontalAlignment','center','VerticalAlignment','middle','FontName',ax.YAxis.Label.FontName,'FontSize',ax.YAxis.Label.FontSize);
+                set(hh,{'Rotation'},num2cell(-(90+angs)).')
+                % color
+                cmap = DNcolormap2(64)./255;
+                colormap(cmap);
+                % legend
+                if 1
+                    cpos = [.23 .55 .035 .2];
+                    cax = axes('Position',cpos);
+                    % put value axis only on right
+                    yyaxis right
+                    cax.YAxis(1).Visible = 'off';
+                    cax.YAxis(2).Color = [0 0 0];
+                    cax.XAxis.Visible = 'off';
+                    cax.YLim = [0 size(cmap,1)];
+                    cax.XLim = [0 1];
+                    % draw the heatmap
+                    for c=1:64
+                        patch([0 1 1 0],c-1+[0 0 1 1],cmap(c,:),'EdgeColor','none');
+                    end
+                    cax.YAxis(2).TickDirection = 'out';
+                    cax.YAxis(2).TickValues = [0 32 64];
+                    cax.YAxis(2).TickLabels = {'low','medium','high'};
+                    text(0,68,'Density','Parent',cax,'HorizontalAlignment','left','VerticalAlignment','bottom')
+                end
+                % axis lines to top
+                uistack(axLines,'top')
+                
+                print([dirs.results '\NieZemBeeHol_fig10_' ETs{e} '_' condlbl '.png'],'-dpng','-r300')
+            end
+        end
+    end
+end
+
 % RMS/STD version of NieZemHol Figure 5, 6 and 7
 if 1
     fac = [1.05 1.15];
@@ -408,7 +536,7 @@ if 1
                         % filtered human
                         figNum = 5;
                         if strcmp(ETs{e},'EL')
-                            qFile = strcmp({files.tracker},'EL')   & [files.isFiltered];
+                            qFile = strcmp({files.tracker},ETs{e}) & [files.isFiltered];
                         elseif ismember(ETs{e},{'RED250','REDm'})
                             qFile = strcmp({files.tracker},ETs{e}) & [files.isFiltered];
                         elseif ismember(ETs{e},{'TX300','X260'})    % no filtered data for these
@@ -421,7 +549,7 @@ if 1
                     case 12
                         % unfiltered human
                         if strcmp(ETs{e},'EL')
-                            qFile = strcmp({files.tracker},'EL')   & ~[files.isFiltered];
+                            qFile = strcmp({files.tracker},ETs{e}) & ~[files.isFiltered];
                             whichSub = [1 4];   % get coloring correct
                             figNum = 6;
                         elseif ismember(ETs{e},{'RED250','REDm'})
@@ -439,7 +567,7 @@ if 1
                         % filtered AE
                         figNum = 5;
                         if strcmp(ETs{e},'EL')
-                            qFile = strcmp({filesAE.tracker},'EL')   & [filesAE.isFiltered];
+                            qFile = strcmp({filesAE.tracker},ETs{e}) & [filesAE.isFiltered];
                         elseif ismember(ETs{e},{'RED250','REDm'})
                             qFile = strcmp({filesAE.tracker},ETs{e}) & [filesAE.isFiltered];
                         elseif ismember(ETs{e},{'TX300','X260'})    % no filtered data for these
@@ -452,7 +580,7 @@ if 1
                     case 22
                         % unfiltered AE
                         if strcmp(ETs{e},'EL')
-                            qFile = strcmp({filesAE.tracker},'EL')   & ~[filesAE.isFiltered];
+                            qFile = strcmp({filesAE.tracker},ETs{e}) & ~[filesAE.isFiltered];
                             figNum = 6;
                         elseif ismember(ETs{e},{'RED250','REDm'})
                             qFile = strcmp({filesAE.tracker},ETs{e}) & ~[filesAE.isFiltered];
@@ -547,9 +675,6 @@ if 1
                 % axis lines to top
                 uistack(axLines,'top')
                 
-                if strcmp(ETs{e},'EL')
-                    print([dirs.results '\NieZemBeeHol_fig10_' ETs{e} '_' condlbl '.png'],'-dpng','-r300')
-                end
                 if ~isfolder(fullfile(dirs.results,'NieZemHol_fig5,6,7 using RMS_STD'))
                     mkdir(fullfile(dirs.results,'NieZemHol_fig5,6,7 using RMS_STD'));
                 end
