@@ -150,6 +150,7 @@ if 1    % for each tracker, get ten data windows most similar to mean or median 
         text(a(1),a(3)+0.92*a(4),'Artificial eye data','FontSize',14,'HorizontalAlignment','left','VerticalAlignment','bottom','FontWeight','bold')
         
         print([dirs.results '\NieZemHol_fig2b.png'],'-dpng','-r300')
+        print([dirs.results '\NieZemHol_fig2b'    ],'-depsc')
     end
     
     
@@ -190,9 +191,15 @@ if 1    % for each tracker, get ten data windows most similar to mean or median 
             
             % add text identifying setup
             text(0,plrange(2,e)*1.02,lbls{e},'FontSize',12,'HorizontalAlignment','left','VerticalAlignment','bottom','FontWeight','bold')
+            
+            % panel label
+            if e==1
+                text(-15,plrange(2,e)*1.4,'Artificial eye data','FontSize',14,'HorizontalAlignment','left','VerticalAlignment','bottom','FontWeight','bold')
+            end
         end
         
         print([dirs.results '\NieZemBeeHol_fig2b.png'],'-dpng','-r300')
+        print([dirs.results '\NieZemBeeHol_fig2b'    ],'-depsc')
     end
 end
 

@@ -93,6 +93,7 @@ if 1
     lh.FontSize = 10;
     
     print([dirs.results '\NieZemHol_fig1.png'],'-dpng','-r300');
+    print([dirs.results '\NieZemHol_fig1'    ],'-depsc')
     close
 end
 % NieZemBeeHol Figure 1
@@ -133,6 +134,7 @@ if 1
     fig.Position(3)=fig.Position(3)*1.2;
     
     print([dirs.results '\NieZemBeeHol_fig1.png'],'-dpng','-r300');
+    print([dirs.results '\NieZemBeeHol_fig1'    ],'-depsc')
     close
 end
 
@@ -245,6 +247,7 @@ if 1
         text(a(1),a(3)+0.92*a(4),'Human data','FontSize',14,'HorizontalAlignment','left','VerticalAlignment','bottom','FontWeight','bold')
         
         print([dirs.results '\NieZemHol_fig2a.png'],'-dpng','-r300')
+        print([dirs.results '\NieZemHol_fig2a'    ],'-depsc')
     end
     
     
@@ -278,16 +281,22 @@ if 1
             xlim([0 200])
             ylim([plrange(1,e) plrange(2,e)])
             box off
-            set(ax,'FontSize',12)
+            ax.FontSize = 12;
             ax.XAxis.LineWidth = 1.5;
             ax.YAxis.LineWidth = 1.5;
             ax.YRuler.TickLabelFormat = '%.2f';
             
             % add text identifying setup
             text(0,plrange(2,e)*1.02,lbls{e},'FontSize',12,'HorizontalAlignment','left','VerticalAlignment','bottom','FontWeight','bold')
+
+            % panel label
+            if e==1
+                text(-15,plrange(2,e)*1.4,'Human data','FontSize',14,'HorizontalAlignment','left','VerticalAlignment','bottom','FontWeight','bold')
+            end
         end
         
         print([dirs.results '\NieZemBeeHol_fig2a.png'],'-dpng','-r300')
+        print([dirs.results '\NieZemBeeHol_fig2a'    ],'-depsc')
     end
     close
 end
@@ -397,6 +406,7 @@ if 1
         axis off
         
         print([dirs.results '\NieZemBeeHol_fig3a.png'],'-dpng','-r300')
+        print([dirs.results '\NieZemBeeHol_fig3a'    ],'-depsc')
     end
     
     
@@ -420,7 +430,6 @@ if 1
             t = linspace(0,200-1,size(plotDat{e},1));
             plot(t,plotDat{e}(:,2),'k','LineWidth',1);
             
-            ylabel('Vertical gaze position (°)')
             if e==3
                 xlabel('Time (ms)')
             end
@@ -431,12 +440,17 @@ if 1
             ax.XAxis.LineWidth = 1.5;
             ax.YAxis.LineWidth = 1.5;
             ax.YRuler.TickLabelFormat = '%.0f';
+            if e==2
+                ylabel('Vertical gaze position (°)')
+                ax.YRuler.Label.Position(2) = 1.5;
+            end
             
             % add text identifying setup
             text(0,plrange(2,e)*1.02,lbls{e},'FontSize',12,'HorizontalAlignment','left','VerticalAlignment','bottom','FontWeight','bold')
         end
         
         print([dirs.results '\NieZemBeeHol_fig3b.png'],'-dpng','-r300')
+        print([dirs.results '\NieZemBeeHol_fig3b'    ],'-depsc')
     end
     close
 end
@@ -503,6 +517,7 @@ if 1
     lh.FontSize = 10;
     
     print([dirs.results '\NieZemHol_fig3.png'],'-dpng','-r300');
+    print([dirs.results '\NieZemHol_fig3'    ],'-depsc')
     close
 end
 
@@ -639,6 +654,7 @@ if 1
         ax(2).Position(1) = ax(2).Position(1)-margin*.6;
         
         print([dirs.results '\NieZemBeeHol_fig11_' ETs{p} '.png'],'-dpng','-r300');
+        print([dirs.results '\NieZemBeeHol_fig11_' ETs{p}       ],'-depsc')
     end
 end
 

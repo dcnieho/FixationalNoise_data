@@ -389,5 +389,6 @@ for p=1:5
 end
 drawnow
 print(fullfile(dirs.results,'NieZemBeeHol_fig8.png'),'-dpng','-r300')
+print(fullfile(dirs.results,'NieZemBeeHol_fig8'    ),'-depsc')
 
 rmpath(genpath(dirs.funclib));                 % add dirs to path

@@ -213,8 +213,9 @@ if 1
                 end
                 lh.Box = 'off';
                 
-                fnames{end+1} = ['NieZemHol_fig' num2str(figNum) '_' ETs{e} '_' condlbl '.png'];
-                print(fullfile(dirs.results,fnames{end}),'-dpng','-r300')
+                fnames{end+1} = ['NieZemHol_fig' num2str(figNum) '_' ETs{e} '_' condlbl];
+                print(fullfile(dirs.results,[fnames{end} '.png']),'-dpng','-r300')
+                % print(fullfile(dirs.results,fnames{end}),'-depsc')
             end
         end
     end
@@ -223,7 +224,7 @@ if 1
     % cut out code
     plaat = cell(size(fnames));
     for p=1:length(fnames)
-        plaat{p} = imread(fullfile(dirs.results,fnames{p}));
+        plaat{p} = imread(fullfile(dirs.results,[fnames{p} '.png']));
     end
     % find out how much can trim from each side for each image
     pix = plaat{1}(1,1,:);
@@ -245,7 +246,7 @@ if 1
     % now trim them all and save
     for p=1:length(plaat)
         im = plaat{p}(allTrim(3):allTrim(4),allTrim(1):allTrim(2),:);
-        imwrite(im,fullfile(dirs.results,fnames{p}));
+        imwrite(im,fullfile(dirs.results,[fnames{p} '.png']));
     end
 end
 
@@ -384,6 +385,7 @@ if 1
     end
     
     print([dirs.results '\NieZemBeeHol_fig9.png'],'-dpng','-r300')
+    % print([dirs.results '\NieZemBeeHol_fig9'    ],'-depsc')
     close
 end
 
@@ -415,7 +417,7 @@ if 1
                         % unfiltered human
                         qFile = strcmp({files.tracker},ETs{e}) & ~[files.isFiltered];
                         data = out(qFile);
-                        condlbl = 'human_nofilt';
+                        condlbl = 'human_unfilt';
                         
                     case 21
                         % filtered AE
@@ -512,6 +514,11 @@ if 1
                 uistack(axLines,'top')
                 
                 print([dirs.results '\NieZemBeeHol_fig10_' ETs{e} '_' condlbl '.png'],'-dpng','-r300')
+                % fhndl = gcf;
+                % rend = fhndl.Renderer;
+                % fhndl.Renderer = 'painters';    % else the below line exports a bitmap...
+                % print([dirs.results '\NieZemBeeHol_fig10_' ETs{e} '_' condlbl ],'-depsc')
+                % fhndl.Renderer = rend;
             end
         end
     end
@@ -561,7 +568,7 @@ if 1
                         end
                         data = out(qFile);
                         
-                        condlbl = 'human_nofilt';
+                        condlbl = 'human_unfilt';
                         
                     case 21
                         % filtered AE
@@ -679,6 +686,11 @@ if 1
                     mkdir(fullfile(dirs.results,'NieZemHol_fig5,6,7 using RMS_STD'));
                 end
                 print(fullfile(dirs.results,'NieZemHol_fig5,6,7 using RMS_STD',['NieZemHol_fig' num2str(figNum) '_' ETs{e} '_' condlbl '.png']),'-dpng','-r300')
+                % fhndl = gcf;
+                % rend = fhndl.Renderer;
+                % fhndl.Renderer = 'painters';    % else the below line exports a bitmap...
+                % print(fullfile(dirs.results,'NieZemHol_fig5,6,7 using RMS_STD',['NieZemHol_fig' num2str(figNum) '_' ETs{e} '_' condlbl]),'-depsc')
+                % fhndl.Renderer = rend;
             end
         end
     end
