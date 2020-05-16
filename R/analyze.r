@@ -1,3 +1,5 @@
+# the analyses were run with R version 3.6.2, lmerTest 3.1.1, LMERConvenienceFunctions 2.10 and lme4 1.1.21
+
 # set cwd to location of this file
 pwd = 'C:\\dat\\projects\\noiseTypeExtent\\data_code_release\\data_release\\R'
 
