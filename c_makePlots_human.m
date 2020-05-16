@@ -621,8 +621,12 @@ if 1
             xcoords = (linelims(fs,:)-px(fs,2))/px(fs,1);
             plot(xcoords,polyval(px(fs,:),xcoords),'-','LineWidth',2,'Color',cols(fs)*[1 1 1])
         end
-        set(gca,'YTick',norminv([1 2 5 10 20 50 80 90 95 98 99]./100));
-        set(gca,'YTickLabel',[1 2 5 10 20 50 80 90 95 98 99]);
+        ax(1).YTick = norminv([1 2 5 10 20 50 80 90 95 98 99]./100);
+        ax(1).YTickLabel = [1 2 5 10 20 50 80 90 95 98 99];
+        ax(1).XAxis.FontSize = 11;
+        ax(1).XAxis.Label.FontSize = 13;
+        ax(1).YAxis.FontSize = 11;
+        ax(1).YAxis.Label.FontSize = 13;
         grid on
         ylim(norminv([.5 99.5]./100));
         xlim(quantile(Xs,[.005 .995]))
@@ -636,8 +640,12 @@ if 1
             xcoords = (linelims(fs,:)-py(fs,2))/py(fs,1);
             plot(xcoords,polyval(py(fs,:),xcoords),'-','LineWidth',2,'Color',cols(fs)*[1 1 1])
         end
-        set(gca,'YTick',norminv([1 2 5 10 20 50 80 90 95 98 99]./100));
-        set(gca,'YTickLabel',[]);
+        ax(2).YTick = norminv([1 2 5 10 20 50 80 90 95 98 99]./100);
+        ax(2).YTickLabel = [];
+        ax(2).XAxis.FontSize = 11;
+        ax(2).XAxis.Label.FontSize = 13;
+        ax(2).YAxis.FontSize = 11;
+        ax(2).YAxis.Label.FontSize = 13;
         grid on
         ylim(norminv([.5 99.5]./100));
         xlim(quantile(Ys,[.005 .995]))
