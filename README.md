@@ -1,8 +1,8 @@
 This repository contains the data and analysis code used and developed for the articles:
-- Niehorster, D.C., Zemblys, R. & Holmqvist, K. (in press). Is apparent fixational drift in eye-tracking data due to filters or eyeball rotation? Behavior Research Methods
-- Niehorster, D.C., Zemblys, R., Beelders, T. & Holmqvist, K. (in press). Characterizing gaze position signals and synthesizing noise during fixations in eye-tracking data. Behavior Research Methods
+- [Niehorster, D. C., Zemblys, R., & Holmqvist, K. (2021). Is apparent fixational drift in eye-tracking data due to filters or eyeball rotation?. Behavior Research Methods, 53(1), 311–324. doi: 10.3758/s13428-020-01414-3](https://doi.org/10.3758/s13428-020-01414-3)
+- [Niehorster, D. C., Zemblys, R., Beelders, T., & Holmqvist, K. (2020). Characterizing gaze position signals and synthesizing noise during fixations in eye-tracking data. Behavior Research Methods, 52(6), 2515–2534. doi: 10.3758/s13428-020-01400-9](https://doi.org/10.3758/s13428-020-01400-9)
 
-When using the data or analysis code in this repository, please cite both papers. The fixational eye movement data generator used in Niehorster, Zemblys, Beelders & Holmqvist (in press) can be found [here](https://github.com/dcnieho/FixationalNoise_generator).
+When using the data or analysis code in this repository, please cite both papers. The fixational eye movement data generator used in Niehorster, Zemblys, Beelders & Holmqvist (2020) can be found [here](https://github.com/dcnieho/FixationalNoise_generator).
 
 For more information or questions, e-mail: dcnieho@gmail.com. The latest version of this repository is available
 from www.github.com/dcnieho/FixationalNoise_data
@@ -31,8 +31,8 @@ By downloading this data set, you expressly agree to the following conditions of
 
 ### A. Conditions of Release
 Data are available by permission of the authors. Use of data in publications, either digital or hardcopy, must be cited as follows: 
-- Niehorster, D.C., Zemblys, R. & Holmqvist, K. (in press). Is apparent fixational drift in eye-tracking data due to filters or eyeball rotation? Behavior Research Methods.
-- Niehorster, D.C., Zemblys, R., Beelders, T. & Holmqvist, K. (in press). Characterizing gaze position signals and synthesizing noise during fixations in eye-tracking data. Behavior Research Methods.
+- [Niehorster, D. C., Zemblys, R., & Holmqvist, K. (2021). Is apparent fixational drift in eye-tracking data due to filters or eyeball rotation?. Behavior Research Methods, 53(1), 311–324. doi: 10.3758/s13428-020-01414-3](https://doi.org/10.3758/s13428-020-01414-3)
+- [Niehorster, D. C., Zemblys, R., Beelders, T., & Holmqvist, K. (2020). Characterizing gaze position signals and synthesizing noise during fixations in eye-tracking data. Behavior Research Methods, 52(6), 2515–2534. doi: 10.3758/s13428-020-01400-9](https://doi.org/10.3758/s13428-020-01400-9)
 
 ### B. Disclaimer of Liability
 The authors shall not be held liable for any improper or incorrect use or application of the data provided, and assume no responsibility for the use or application of the data or interpretations based on the data, or information derived from interpretation of the data. In no event shall the authors be liable for any direct, indirect or incidental damage, injury, loss, harm, illness or other damage or injury arising from the release, use or application of these data. This disclaimer of liability applies to any direct, indirect, incidental, exemplary, special or consequential damages or injury, even if advised of the possibility of such damage or injury, including but not limited to those caused by any failure of performance, error, omission, defect, delay in operation or transmission, computer virus, alteration, use, application, analysis or interpretation of data.
